@@ -1,0 +1,264 @@
+.recent h1{
+    color:; #009dc1;
+}
+
+.chart .choice{
+margin-top:4px;
+}
+
+
+.item-caption{
+text-align:left;
+padding-left:10px;
+}
+
+.item-caption h3{
+	font-size:31px;
+}
+.item-caption p{
+	font-size:17px;
+}
+.stripe-y-center{
+  padding-top:20px;
+padding-bottom:20px;
+}
+#footer h2{
+margin-top: 0px;
+color:white;
+}
+
+.brand-stripe{
+ position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
+
+body{
+font-family: 'Open Sans', sans-serif;
+}
+.navbar-stripe {
+	background-color: #009dc1;
+	border-color: #e7e7e7;
+margin-bottom: 0px;
+height: 70px;
+}
+.navbar-collapse-stripe{
+padding-top: 18px;
+}
+.navbar-stripe-nav{
+	font-family: Oswald;
+	font-size:23px;
+	color: white;
+	padding-right: 20px;
+}
+
+.white-icon, .white-icon a {
+	color: #fff;
+}
+.input-stripe, .btn-stripe{
+	padding:0;
+    border:none !important;
+	font-family: 'Open Sans', sans-serif;
+	color:white;
+}
+
+    
+    @media (min-width: 768px) {
+        .navbar .navbar-nav {
+            display: inline-block;
+            float: none;
+        }
+        
+        .navbar .navbar-collapse {
+            text-align: center;
+        }
+    }
+.poll{
+margin-top:10px;
+}
+
+.recent li{
+	font-size:22px;
+    list-style-type:none;
+	padding-bottom:5px;
+}
+.recent li a,a{
+		color: black;	
+}
+
+.recent li a:hover, a:hover{
+		color: #009dc1 ;
+ 		text-decoration: none;	
+}
+
+.recent {
+	padding-left: 5px;
+	margin-left:0px;
+}
+
+.popular .active, .recent .active, .story .active{
+	color:#009dc1;
+}
+
+.popular h1,.recent h1,.story h1{
+	border-bottom: 3px solid #009dc1; 
+	font-size:14.5px;
+    color: #009dc1;
+}
+.story .row h2, .story .row h3{
+    padding-left: 15px;
+}
+
+.story h3{
+
+}
+
+.stripe-row{
+	padding-top:20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.popular .post h2{
+	font-size:25px;
+}
+.popular .post{
+	padding-bottom:40px;
+	margin-left: 5px;
+}
+.popular .post p{
+	font-size:20px;
+}
+
+
+#footer h1{
+	font-size:23px;
+	color:white;
+}
+
+.hashtag{
+	font-size:20px;
+	background-color:#009dc1;
+	color:white;
+	padding-left:10px;
+	padding-right:10px;
+	border-radius: 15px;
+	margin-left:5px;
+	margin-right:5px;
+font-family: 'Open Sans', sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.item {
+    margin: 0;
+    padding: 0;
+
+    position: relative;
+    display: block;
+    cursor: pointer;
+    overflow: hidden;
+    border: 3px solid #fff;
+}
+ 
+.item:hover  .item-caption {
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    filter: alpha(opacity=100);
+    opacity: 1;
+
+    top: 0;
+}
+ 
+
+.item-caption {
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5);
+    filter: alpha(opacity=0.5);
+    opacity: 0.5;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: -100%;
+    background: rgba(0,157,193,.5);
+    color: #fff;
+    
+    -webkit-transition: opacity 1.5s ease;
+    -moz-transition: opacity 1.5s ease;
+    -o-transition: opacity 1.5s ease;
+    -ms-transition: opacity 1.5s ease;
+    transition: opacity 1.5s ease;
+/*
+    -webkit-transition-delay: .5s;
+    -moz-transition-delay: .5s;
+    -o-transition-delay: .5s;
+    -ms-transition-delay: .5s;
+    transition-delay: .5s;
+    */
+}
+ 
+
+
+
+
+
+
+
+
+#search { 
+	float: right; 
+}
+.search { 
+	width:230px; 
+	height:30px; 
+	position: relative; 
+	left: 10px;
+	float:left;
+	line-height: 22px;
+}
+.search input {
+        width:0px;
+        float:Left;
+        margin-left:210px;
+        -webkit-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -o-transition: all 1s ease-in-out;
+        transition: all 1s ease-in-out;
+          height:30px; line-height: 18px; font-style: italic; padding:0 2px 0 2px; font-family: arial;  font-size: 15px; outline: none; -webkit-appearance: none; left-border-radius: 20px; border-width:0; }
+.search:hover input ,  .search input:focus { width: 200px; margin-left: 0px; }
+       
+       .search input:focus {  color: #999; }
+.srch_btn{ background-color:#D3D3D3; font-family: arial;  height:30px; width:30px;position: absolute;right:0;}
+
+
+
+.story p{
+	font-size:20px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.story .chart{
+    padding-left: 15px;
+    padding-right: 45px;
+}
+
+
+
+
+
+
