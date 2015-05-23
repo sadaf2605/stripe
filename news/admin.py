@@ -19,21 +19,46 @@ from django.contrib.contenttypes.models import ContentType
 #Group.objects.create(name='editor')
 #Group.objects.create(name='author')
 
-group = Group.objects.get(name='author')
-User.objects.filter(username="sadaf2605")[0].groups.add(group)
+#group = Group.objects.get(name='author')
+#User.objects.filter(username="user")[0].groups.add(group)
+#can_fm_list = Permission.objects.get(name='Article')
+#newgroup.permissions.add(can_fm_list)
+first = True
+veryFirst = True
+
+if veryFirst:
+
+    if first:
+    #    Group.objects.create(name='editor')
+    #    Group.objects.create(name='author')
+
+        group = Group.objects.get(name='author')
+
+        article=Permission.objects.get(name="Can add article")
+        group.permissions.add(article)
+
+        article=Permission.objects.get(name="Can change article")
+        group.permissions.add(article)
+
+        article=Permission.objects.get(name="Can delete article")
+        group.permissions.add(article)
+
 
 # Register your models here.
 class ArticleAdmin(admin.ModelAdmin):
+#    fields = ['title', 'slug','body','pub_date', 'category','cover']
 
     def has_add_permission(self, request):
         return request.user.groups.filter(name='author').exists()
 
     def has_change_permission(self, request, obj=None):
+        print obj
         return request.user.groups.filter(name='editor').exists() or (request.user.groups.filter(name='author').exists() and Article.objects.filter(pk=obj, author=request.user).count() >0 )
 
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='editor').exists() or (request.user.groups.filter(name='author').exists() and Article.objects.filter(pk=obj, author=request.user).count() >0 )
 
 admin.site.register(Article, ArticleAdmin)
+
 admin.site.register(Category)
 admin.site.register(UserProfile)
