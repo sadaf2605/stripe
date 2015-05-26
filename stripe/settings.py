@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'wpadmin',
+#    'wpadmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -93,3 +93,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATICFILES_DIRS = (
   os.path.join(SITE_ROOT, 'static/'),
 )
+
+TEMPLATE_DIRS = (
+  os.path.join(SITE_ROOT, 'templates/'),
+    )

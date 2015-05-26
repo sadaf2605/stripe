@@ -58,6 +58,15 @@ class ArticleAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='editor').exists() or (request.user.groups.filter(name='author').exists() and Article.objects.filter(pk=obj, author=request.user).count() >0 )
 
+
+class MyModelAdmin(admin.ModelAdmin):
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['some_var'] = 'This is what I want to show'
+        return super(MyModelAdmin, self).changelist_view(request, extra_context=extra_context)
+
+
+
 admin.site.register(Article, ArticleAdmin)
 
 admin.site.register(Category)

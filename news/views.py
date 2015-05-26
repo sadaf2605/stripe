@@ -4,7 +4,7 @@ from django.template import RequestContext, loader
 
 def index(request):
     latest_question_list = []
-    template = loader.get_template('index.html')
+    template = loader.get_template('news/index.html')
     context = RequestContext(request, {
         'latest_question_list': latest_question_list,
     })
