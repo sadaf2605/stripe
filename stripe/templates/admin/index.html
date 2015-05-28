@@ -11,6 +11,7 @@
 
 {% block content %}
 <div id="content-main">
+    <h1>{{ some_var }}</h1>
 {% if app_list %}
     {% for app in app_list %}
         <div class="app-{{ app.app_label }} module">

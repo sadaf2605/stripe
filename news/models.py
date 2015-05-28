@@ -11,10 +11,15 @@ class Article(models.Model):
     category=models.ForeignKey('Category')
     cover=models.ImageField()
 
+    def __str__(self):
+        return self.title
+
 class Category(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=100, db_index=True)
 
+    def __str__(self):
+        return self.title
 
 
 class UserProfile(models.Model):
