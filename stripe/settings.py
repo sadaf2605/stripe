@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'news',
+    'sorl.thumbnail',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,3 +99,7 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
   os.path.join(SITE_ROOT, 'templates/'),
     )
+
+PROJECT_DIR = os.path.dirname(__file__)
+MEDIA_ROOT = os.path.join(PROJECT_DIR, "media")
+MEDIA_URL = '/media/'

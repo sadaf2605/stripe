@@ -1,12 +1,18 @@
 from django.shortcuts import *
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from models import *
 
 def index(request):
-    latest_question_list = []
+
+    articles = Article.objects.all()
+    popular_articles = PopularArticle.objects.all()
+    slider_articles=SliderArticle.objects.all()
     template = loader.get_template('news/index.html')
     context = RequestContext(request, {
-        'latest_question_list': latest_question_list,
+        'popular_articles':popular_articles,
+        'slider_articles':slider_articles,
+        'articles': articles,
     })
     return HttpResponse(template.render(context))
 
@@ -25,7 +31,6 @@ def register(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
-            user.is_staff=True
 
 
             user.save()

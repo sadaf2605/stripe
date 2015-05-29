@@ -14,15 +14,16 @@ class StripeAdminSite(admin.AdminSite):
 
 class ArticleAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, *kwwargs):
-        if request.user.is_superuser or request.user==obj.author:
+        if request.user.is_superuser or request.user==obj.author or "editor" in request.user.groups.values_list('name', flat=True):
             super(ArticleAdmin,self).save_model(request, obj, *kwwargs)
         else:
-            pass
-
+            obj.author=None
+            super(ArticleAdmin,self).save_model(request, obj, *kwwargs)
 
     def queryset(self, request):
         qs = super(ArticleAdmin, self).queryset(request)
-        if request.user.is_superuser:
+
+        if request.user.is_superuser or "editor" in request.user.groups.values_list('name', flat=True):
             return qs
         else:
             return qs.filter(author=request.user)
@@ -56,7 +57,8 @@ from django.contrib.auth.admin import UserAdmin
 stripe_admin_site.register(User, UserAdmin)
 
 stripe_admin_site.register(UserProfile)
-
+stripe_admin_site.register(PopularArticle)
+stripe_admin_site.register(SliderArticle)
 
 
 
@@ -91,10 +93,9 @@ veryFirst = False
 if veryFirst:
 
     if first:
-        Group.objects.create(name='editor')
-        Group.objects.create(name='author')
+        Group.objects.get_or_create(name='editor')
+        Group.objects.get_or_create(name='author')
 
-        group = Group.objects.get(name='author')
 
         article=Permission.objects.get(name="Can add article")
         group.permissions.add(article)
@@ -108,6 +109,40 @@ if veryFirst:
         article=Permission.objects.get(name="Can view article")
         group.permissions.add(article)
         print "permissions",group.permissions
+
+
+
+def author_group_permissions(sender, **kwargs):
+    author=Group.objects.get_or_create(name='author')[0]
+    for p in ["add","change","delete"]:
+        perm=Permission.objects.get(name="Can "+p+" article")
+
+        author.permissions.add(perm)
+        print perm," on ","article", "granted for editor"
+
+
+
+def editor_group_permissions(sender, **kwargs):
+    editor=Group.objects.get_or_create(name='editor')[0]
+    for m in ["article", "popular article", "slider article"]:
+        for p in ["add","change","delete"]:
+            perm=Permission.objects.get(name="Can "+p+" "+m)
+            editor.permissions.add(perm)
+            print perm," on ",m, "granted for editor"
+
+
+
+
+
+
+
+
+
+from django.db.models import signals
+signals.post_syncdb.connect(editor_group_permissions)
+signals.post_syncdb.connect(author_group_permissions)
+
+
 
 from django.db.models.signals import post_syncdb
 from django.contrib.contenttypes.models import ContentType

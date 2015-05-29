@@ -88,9 +88,24 @@
 
 
 
+{% load thumbnail %}
 
 <div id="owl-demo" class="owl-carousel owl-theme text-center">
+  {% for s_article in slider_articles %}
+    <div class="item">
 
+       {% thumbnail s_article.article.cover "250x250" crop="center" as im %}
+       <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+       {% endthumbnail %}
+
+	    <img src="{{s_article.article.url}}">
+        <div class="item-caption">
+            <h3>{{s_article.article.title}}</h3>
+
+            <p>{{s_article.article.body}}</p>
+        </div>
+    </div>
+  {% endfor %}
 
   <div class="item">
 	<img src="{% static "img/slider_1.png"  %}">
@@ -191,6 +206,9 @@
 
 		<ul class="recent">
 			<h1>RECENT</h1>
+            {% for a in articles %}
+            <li><a href="{{a.slug}}">{{a.title}}</a></li>
+            {%endfor%}
 			<li><a href="#">Agents of S.H.I.E.L.D. “Heavy Is the Head”(An Episode Review)</a></li>
 			<li><a href="#">DES: Dhaka Electronica Scene (An Interview)</a></li>
 			<li><a href="#">How To Start Watching Doctor</a><li>
@@ -206,7 +224,28 @@
 	<div class="col-md-8">
 		<div class="popular">
 			<h1>POPULAR</h1>
-		
+
+            {% for p_article in popular_articles %}
+			<div class="row post">
+				<h2><a href="#">{{p_article.article.title}}</a></h2>
+				<div class="col-md-5">
+                    {% thumbnail p_article.article.cover "267x149" crop="center" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
+
+
+                </div>
+				<div class="col-md-7">
+					<p>{{p_article.article.body}}</p>
+
+				</div> <!--col-md-7 ends-->
+			</div> <!--post ends-->
+
+
+
+
+            {% endfor %}
+
 			<div class="row post">
 				<h2><a href="#">Agents of S.H.I.E.L.D. "Heavy Is the Head" (An Episode Review)</a></h2>
 				<div class="col-md-5"><img src="{% static "img/pop_post_1.png" %}"></div>

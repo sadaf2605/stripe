@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from sorl import thumbnail
+
 
 
 class Article(models.Model):
@@ -9,10 +11,21 @@ class Article(models.Model):
     body = models.TextField()
     pub_date = models.DateTimeField('date published')
     category=models.ForeignKey('Category')
-    cover=models.ImageField()
+    cover=thumbnail.ImageField(upload_to='news_covers/%Y/%m/%d')
+
 
     def __str__(self):
         return self.title
+
+class PopularArticle(models.Model):
+    article=models.ForeignKey(Article)
+    priority= models.IntegerField()
+
+class SliderArticle(models.Model):
+    article=models.ForeignKey(Article)
+    priority= models.IntegerField()
+
+
 
 class Category(models.Model):
     title = models.CharField(max_length=100, db_index=True)
