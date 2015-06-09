@@ -10,8 +10,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-<div id="content-main">
-    <h1>{{ some_var }}</h1>
+<div id="content-main" style="max-width:400px;float:left;">
 {% if app_list %}
     {% for app in app_list %}
         <div class="app-{{ app.app_label }} module">
@@ -47,11 +46,111 @@
     <p>{% trans "You don't have permission to edit anything." %}</p>
 {% endif %}
 </div>
-{% endblock %}
+
+
+
+
+        <div id="content-main2" style="max-width:500px;float:left; padding-right:10px">
+        {% if user_not_approved %}
+            <div class="app-news module">
+                <table>
+                    <caption> <a href="" class="section">New author requests</a> </caption>
+                    <tbody>
+                    {% for user in user_not_approved %}
+                         <tr class="model-user">
+                             <th scope="row"><a href="">{{user.email}}</a></th>
+                             <td><a href="/admin/author/approve/{{user.username}}" class="addlink">Add as author</a></td>
+                             <td><a href="/admin/author/reject/{{user.username}}" class="changelink">Reject</a></td>
+                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         {% endif %}
+
+
+
+         {% if article_to_approve %}
+            <div class="app-news module">
+                <table>
+                    <caption> <a href="" class="section">Articles to approve</a> </caption>
+                    <tbody>
+                    {% for article in article_to_approve %}
+                         <tr class="model-user">
+                             <th scope="row"><a href="">{{article.title}}</a></th>
+                             <td><a href="/admin/article/approve/{{article.id}}" class="addlink">Publish</a></td>
+                             <td><a href="/admin/article/reject/{{article.id}}" class="changelink">Delete</a></td>
+                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         {% endif %}
+
+
+
+         {% if draft_article %}
+            <div class="app-news module">
+                <table>
+                    <caption> <a href="" class="section">Your articles at draft</a> </caption>
+                    <tbody>
+                    {% for article in draft_article %}
+                         <tr class="model-user">
+                             <th scope="row"><a href="">{{article.title}}</a></th>
+                             <td><a href="/admin/article/request/{{article.id}}" class="addlink">Request to Publish</a></td>
+                             <td><a href="/admin/article/reject/{{article.id}}" class="changelink">Delete</a></td>
+                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         {% endif %}
+
+
+
+            {% if editors_desk_article %}
+            <div class="app-news module">
+                <table>
+                    <caption> <a href="" class="section">Your articles at Editors Desk</a> </caption>
+                    <tbody>
+                    {% for article in editors_desk_article %}
+                         <tr class="model-user">
+                             <th scope="row"><a href="">{{article.title}}</a></th>
+                             <td><a href="/admin/article/reject/{{article.id}}" class="changelink">Delete</a></td>
+                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         {% endif %}
+
+
+
+            {% if published_article %}
+            <div class="app-news module">
+                <table>
+                    <caption> <a href="" class="section">Your previous published articles</a> </caption>
+                    <tbody>
+                    {% for article in published_article %}
+                         <tr class="model-user">
+                             <th scope="row"><a href="">{{article.title}}</a></th>
+                             <td><a href="/admin/article/reject/{{article.id}}" class="changelink">Delete</a></td>
+                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         {% endif %}
+
+
+
+
+
+        </div>
 
 {% block sidebar %}
-<div id="content-related">
-    <div class="module" id="recent-actions-module">
+<div id="content-related" style="max-width:300px;float:left;">
+    <div class="module" id="recent-actions-module" >
         <h2>{% trans 'Recent Actions' %}</h2>
         <h3>{% trans 'My Actions' %}</h3>
             {% load log %}
@@ -79,4 +178,23 @@
             {% endif %}
     </div>
 </div>
+
+
+
+
+
+
+
+
+
 {% endblock %}
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+

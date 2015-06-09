@@ -15,7 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-
+STATIC_ROOT=""
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@ux+g&qrjr9o3^v&6qsk-!8pi3%7cjo7&4t2m@!#61*993)a=j'
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 
     'news',
     'sorl.thumbnail',
+    'tinymce',
 
 )
 
@@ -103,3 +104,8 @@ TEMPLATE_DIRS = (
 PROJECT_DIR = os.path.dirname(__file__)
 MEDIA_ROOT = os.path.join(PROJECT_DIR, "media")
 MEDIA_URL = '/media/'
+
+
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )

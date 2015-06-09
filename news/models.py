@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from sorl import thumbnail
-
+from django.template.defaultfilters import slugify
 
 
 class Article(models.Model):
@@ -9,9 +9,17 @@ class Article(models.Model):
     title = models.CharField(max_length=250, unique=True)
     slug=models.SlugField(max_length=250,unique=True)
     body = models.TextField()
-    pub_date = models.DateTimeField('date published')
-    category=models.ForeignKey('Category')
-    cover=thumbnail.ImageField(upload_to='news_covers/%Y/%m/%d')
+    pub_date = models.DateTimeField('date published',auto_now=True)
+    categories=models.ManyToManyField('Category',blank=True,null=True)
+    cover=thumbnail.ImageField(upload_to='news_covers/%Y/%m/%d',blank=True,null=True)
+    draft=models.BooleanField(default=True)
+    public=models.BooleanField(default=False)
+
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+        super(Article, self).save(*args, **kwargs)
 
 
     def __str__(self):
@@ -20,6 +28,7 @@ class Article(models.Model):
 class PopularArticle(models.Model):
     article=models.ForeignKey(Article)
     priority= models.IntegerField()
+
 
 class SliderArticle(models.Model):
     article=models.ForeignKey(Article)
@@ -31,15 +40,19 @@ class Category(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=100, db_index=True)
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
+
+
     def __str__(self):
         return self.title
 
 
 class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
-    # The additional attributes we wish to include.
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 

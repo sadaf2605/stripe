@@ -5,7 +5,7 @@ from models import *
 
 def index(request):
 
-    articles = Article.objects.all()
+    articles = Article.objects.filter(public=True,draft=False)
     popular_articles = PopularArticle.objects.all()
     slider_articles=SliderArticle.objects.all()
     template = loader.get_template('news/index.html')
@@ -13,8 +13,29 @@ def index(request):
         'popular_articles':popular_articles,
         'slider_articles':slider_articles,
         'articles': articles,
+
     })
     return HttpResponse(template.render(context))
+
+
+def story(request,slug):
+    try:
+        article = Article.objects.filter(slug=slug)[0]
+    except User.DoesNotExist:
+        raise Http404()
+
+    articles = Article.objects.filter(public=True,draft=False)
+    popular_articles = PopularArticle.objects.all()
+    slider_articles=SliderArticle.objects.all()
+    template = loader.get_template('news/story.html')
+    context = RequestContext(request, {
+        'popular_articles':popular_articles,
+        'slider_articles':slider_articles,
+        'articles': articles,
+        'article' : article
+    })
+    return HttpResponse(template.render(context))
+
 
 
 from forms import UserForm, UserProfileForm
@@ -31,10 +52,11 @@ def register(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
-
-
             user.save()
 
+            print user.username, user.password
+            u_s = authenticate(username=user.username, password=user.password)
+            print u_s
 
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -44,7 +66,6 @@ def register(request):
 
             profile.save()
 
-            registered = True
         else:
             print user_form.errors, profile_form.errors
 
@@ -52,8 +73,8 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render_to_response(
-            'register.html',
+        return render_to_response(
+            'news/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
 
@@ -83,4 +104,4 @@ def user_login(request):
 
     else:
 
-        return render_to_response('login.html', {}, context)
+        return render_to_response('news/login.html', {}, context)

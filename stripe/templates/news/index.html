@@ -98,7 +98,7 @@
        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
        {% endthumbnail %}
 
-	    <img src="{{s_article.article.url}}">
+	    <img src="{{s_article.article.cover.url}}">
         <div class="item-caption">
             <h3>{{s_article.article.title}}</h3>
 
@@ -207,8 +207,9 @@
 		<ul class="recent">
 			<h1>RECENT</h1>
             {% for a in articles %}
-            <li><a href="{{a.slug}}">{{a.title}}</a></li>
+            <li><a href="{% url 'news.views.story' a.slug %}">{{a.title}}</a></li>
             {%endfor%}
+
 			<li><a href="#">Agents of S.H.I.E.L.D. “Heavy Is the Head”(An Episode Review)</a></li>
 			<li><a href="#">DES: Dhaka Electronica Scene (An Interview)</a></li>
 			<li><a href="#">How To Start Watching Doctor</a><li>
