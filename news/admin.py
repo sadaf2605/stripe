@@ -5,12 +5,12 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.db.models import Q
 
+import django.db.models
+
 from tinymce.widgets import TinyMCE
 
 class StripeAdminSite(admin.AdminSite):
-    formfield_overrides = {
-        models.TextField: {'widget': TinyMCE(attrs={'cols': 80, 'rows': 30})},
-    }
+
     #site_header = 'Monty Python administration'
     def index(self, request, extra_context=None):
         extra_context = extra_context or {}
@@ -122,16 +122,29 @@ class StripeAdminSite(admin.AdminSite):
         my_urls = [
             url(r'^author/approve/(?P<username>\w+)/$', self.approve_author),
             url(r'^author/reject/(?P<username>\w+)/$', self.reject_author),
-            url(r'^article/approve/(?P<id>\d+)/$', self.approve_article),
-            url(r'^article/reject/(?P<id>\d+)/$', self.reject_article),
-            url(r'^article/request/(?P<id>\d+)/$', self.request_publish_article),
+            url(r'^Article/approve/(?P<id>\d+)/$', self.approve_article),
+            url(r'^Article/reject/(?P<id>\d+)/$', self.reject_article),
+            url(r'^Article/request/(?P<id>\d+)/$', self.request_publish_article),
         ]
 
         return my_urls + urls
 
 
+
 class ArticleAdmin(admin.ModelAdmin):
-    change_form_template = 'admin/change_form.html'
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE()},
+    }
+    change_form_template = 'admin/news/change_form.html'
+
+    def change_view(self, request,object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        #if type(extra_context) is not dict:
+        #    print extra_context
+            #extra_context={}
+        extra_context["show_save_as_draft"] = True
+        return super(ArticleAdmin, self).change_view(request,object_id, form_url, extra_context)
+
     prepopulated_fields = {'slug': ('title',) }
     def save_model(self, request, obj, *kwwargs):
 
@@ -140,6 +153,9 @@ class ArticleAdmin(admin.ModelAdmin):
             obj.slug = slugify(obj.title)
             
         if request.user.is_superuser or request.user==obj.author or "editor" in request.user.groups.values_list('name', flat=True):
+            if '_save_as_draft' in request.POST.keys():
+                obj.draft = True
+                print "draaaaaaaaaaaft button"
             super(ArticleAdmin,self).save_model(request, obj, *kwwargs)
         else:
             #obj.author=None
@@ -184,10 +200,10 @@ stripe_admin_site.register(SliderArticle)
 def author_group_permissions(sender, **kwargs):
     author=Group.objects.get_or_create(name='author')[0]
     for p in ["add","change","delete"]:
-        perm=Permission.objects.get(name="Can "+p+" article")
+        perm=Permission.objects.get(name="Can "+p+" Article")
 
         author.permissions.add(perm)
-        print perm," on ","article", "granted for editor"
+        print perm," on ","Article", "granted for editor"
 
 
 
@@ -195,7 +211,7 @@ def editor_group_permissions(sender, **kwargs):
     editor=Group.objects.get_or_create(name='editor')[0]
 
 
-    for m in ["article", "popular article", "slider article"]:
+    for m in ["Article", "popular Article", "slider Article"]:
         for p in ["add","change","delete"]:
             perm=Permission.objects.get(name="Can "+p+" "+m)
             editor.permissions.add(perm)

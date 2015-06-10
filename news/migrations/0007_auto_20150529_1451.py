@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='article',
+            model_name='Article',
             name='cover',
             field=sorl.thumbnail.fields.ImageField(upload_to=b'news_covers/%Y/%m/%d'),
             preserve_default=True,

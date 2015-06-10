@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='article',
+            model_name='Article',
             name='pub_date',
             field=models.DateTimeField(auto_now=True, verbose_name=b'date published'),
             preserve_default=True,

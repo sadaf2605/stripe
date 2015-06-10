@@ -32,7 +32,7 @@ def story(request,slug):
         'popular_articles':popular_articles,
         'slider_articles':slider_articles,
         'articles': articles,
-        'article' : article
+        'Article' : article
     })
     return HttpResponse(template.render(context))
 

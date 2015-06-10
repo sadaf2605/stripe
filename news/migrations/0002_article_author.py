@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='article',
+            model_name='Article',
             name='author',
             field=models.ForeignKey(default='', to=settings.AUTH_USER_MODEL),
             preserve_default=False,

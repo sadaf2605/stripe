@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 {# WP Admin end #}
-<title>{% block title %}{% endblock %}</title>
+<title>Stripe Admin Page</title>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
@@ -94,7 +94,7 @@
 		<!-- Content -->
 		<div id="content" class="{% block coltype %}colM{% endblock %}">
 			{% block pretitle %}{% endblock %}
-			{% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+			{% block content_title %}<h1>Stripe Dashboard</h1>{% endblock %}
 			{% block content %}
 			{% block object-tools %}{% endblock %}
 			{{ content }}

@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='article',
+            model_name='Article',
             name='category',
             field=models.ForeignKey(default='', to='news.Category'),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='article',
+            model_name='Article',
             name='id',
             field=models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True),
             preserve_default=True,

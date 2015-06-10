@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='article',
+            model_name='Article',
             name='category',
             field=models.ForeignKey(to='news.Category'),
             preserve_default=True,

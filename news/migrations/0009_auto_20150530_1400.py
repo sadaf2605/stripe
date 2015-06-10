@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='article',
+            model_name='Article',
             name='draft',
             field=models.BooleanField(default=True),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='article',
+            model_name='Article',
             name='public',
             field=models.BooleanField(default=False),
             preserve_default=True,

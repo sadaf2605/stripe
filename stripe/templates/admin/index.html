@@ -10,7 +10,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-<div id="content-main" style="max-width:400px;float:left;">
+<div id="content-main" style="max-width:30%;float:left;">
 {% if app_list %}
     {% for app in app_list %}
         <div class="app-{{ app.app_label }} module">
@@ -50,7 +50,7 @@
 
 
 
-        <div id="content-main2" style="max-width:500px;float:left; padding-right:10px">
+        <div id="content-main2" style="max-width:40%;float:left; padding-right:10px">
         {% if user_not_approved %}
             <div class="app-news module">
                 <table>
@@ -149,7 +149,7 @@
         </div>
 
 {% block sidebar %}
-<div id="content-related" style="max-width:300px;float:left;">
+<div id="content-related" style="max-width:30%;float:left;">
     <div class="module" id="recent-actions-module" >
         <h2>{% trans 'Recent Actions' %}</h2>
         <h3>{% trans 'My Actions' %}</h3>
