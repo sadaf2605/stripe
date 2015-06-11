@@ -68,7 +68,14 @@
 
 {% block after_related_objects %}{% endblock %}
 {% load stripe_admin_tag %}
-{% block submit_buttons_bottom %}{% submit_line_row %}{% endblock %}
+{% block submit_buttons_bottom %}
+    {% if show_save_as_draft %}
+        {% submit_line_row %}
+    {% else %}
+        {% submit_row %}
+    {%endif%}
+
+{% endblock %}
 
 {% if adminform and add %}
     <script type="text/javascript">

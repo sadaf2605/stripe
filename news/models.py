@@ -28,12 +28,13 @@ class Article(models.Model):
 class PopularArticle(models.Model):
     article=models.ForeignKey(Article)
     priority= models.IntegerField()
-
+    synopsis= models.TextField(max_length=220,blank=True,null=True)
+    cover=thumbnail.ImageField(upload_to='news_covers/%Y/%m/%d',blank=True,null=True)
 
 class SliderArticle(models.Model):
     article=models.ForeignKey(Article)
     priority= models.IntegerField()
-
+    synopsis= models.TextField(max_length=220,blank=True,null=True)
 
 
 class Category(models.Model):
@@ -59,3 +60,18 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+
+
+
+
+
+class Poll(models.Model):
+    question = models.CharField(max_length=250,unique=True)
+
+class Option(models.Model):
+    title= models.CharField(max_length=250, unique=True)
+    poll = models.ForeignKey(Poll)
+    vote = models.IntegerField(default=0)
+
+class CurrentPoll(models.Model):
+    poll=models.ForeignKey(Poll)

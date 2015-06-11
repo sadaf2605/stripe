@@ -1,0 +1,2 @@
+*.pyc *.swp *~ db.sqlite3 /profile_images stripe/media/* venv *.pyc
+staticfiles

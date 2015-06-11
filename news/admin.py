@@ -8,6 +8,7 @@ from django.db.models import Q
 import django.db.models
 
 from tinymce.widgets import TinyMCE
+from django.http import HttpResponseRedirect
 
 class StripeAdminSite(admin.AdminSite):
 
@@ -90,7 +91,7 @@ class StripeAdminSite(admin.AdminSite):
 
 
 
-        from django.http import HttpResponseRedirect
+
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def approve_article(self,request,id):
@@ -140,9 +141,9 @@ class StripeAdminSite(admin.AdminSite):
             url(r'^author/approve/(?P<username>\w+)/$', self.approve_author),
             url(r'^editor/approve/(?P<username>\w+)/$', self.approve_author),
             url(r'^author/reject/(?P<username>\w+)/$', self.reject_author),
-            url(r'^Article/approve/(?P<id>\d+)/$', self.approve_article),
-            url(r'^Article/reject/(?P<id>\d+)/$', self.reject_article),
-            url(r'^Article/request/(?P<id>\d+)/$', self.request_publish_article),
+            url(r'^article/approve/(?P<id>\d+)/$', self.approve_article),
+            url(r'^article/reject/(?P<id>\d+)/$', self.reject_article),
+            url(r'^article/request/(?P<id>\d+)/$', self.request_publish_article),
         ]
 
         return my_urls + urls
@@ -150,8 +151,8 @@ class StripeAdminSite(admin.AdminSite):
 from django.utils.translation import ugettext_lazy
 
 class ArticleAdmin(admin.ModelAdmin):
-    title = ugettext_lazy('My site admin')
 
+    fields =('author','title' ,'slug','body', 'categories','cover')
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
@@ -176,6 +177,9 @@ class ArticleAdmin(admin.ModelAdmin):
             if '_save_as_draft' in request.POST.keys():
                 obj.draft = True
                 print "draaaaaaaaaaaft button"
+            if '_req_publish' in request.POST.keys():
+                obj.draft = False
+
             super(ArticleAdmin,self).save_model(request, obj, *kwwargs)
         else:
             #obj.author=None
@@ -200,12 +204,23 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 
+
+
+
+
+
 stripe_admin_site = StripeAdminSite(name='Stripe')
 
 
 stripe_admin_site.register(Article, ArticleAdmin)
 
 stripe_admin_site.register(Category,CategoryAdmin)
+stripe_admin_site.register(Poll)
+stripe_admin_site.register(CurrentPoll)
+
+
+
+
 
 from django.contrib.auth.admin import UserAdmin
 stripe_admin_site.register(User, UserAdmin)
@@ -220,7 +235,7 @@ stripe_admin_site.register(SliderArticle)
 def author_group_permissions(sender, **kwargs):
     author=Group.objects.get_or_create(name='author')[0]
     for p in ["add","change","delete"]:
-        perm=Permission.objects.get(name="Can "+p+" Article")
+        perm=Permission.objects.get(name="Can "+p+" article")
 
         author.permissions.add(perm)
         print perm," on ","Article", "granted for editor"
@@ -231,7 +246,7 @@ def editor_group_permissions(sender, **kwargs):
     editor=Group.objects.get_or_create(name='editor')[0]
 
 
-    for m in ["Article", "Popular Article", "Slider Article"]:
+    for m in ["article", "popular article", "slider article"]:
         for p in ["add","change","delete"]:
             perm=Permission.objects.get(name="Can "+p+" "+m)
             editor.permissions.add(perm)
@@ -242,7 +257,7 @@ def chief_editor_group_permissons(sender, **kwargs):
     chief_editor=Group.objects.get_or_create(name='chief_editor')[0]
 
 
-    for m in ["Article", "Popular Article", "Slider Article"]:
+    for m in ["article", "popular article", "slider article"]:
         for p in ["add","change","delete"]:
             perm=Permission.objects.get(name="Can "+p+" "+m)
             chief_editor.permissions.add(perm)

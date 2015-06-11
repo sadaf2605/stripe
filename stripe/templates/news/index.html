@@ -94,99 +94,23 @@
   {% for s_article in slider_articles %}
     <div class="item">
 
-       {% thumbnail s_article.article.cover "250x250" crop="center" as im %}
-       <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-       {% endthumbnail %}
+                    {% if s_article.cover %}
+                        {% thumbnail s_article.cover "267x149" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        {% thumbnail s_article.article.cover "267x149" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    {% endif %}
 
-	    <img src="{{s_article.article.cover.url}}">
         <div class="item-caption">
             <h3>{{s_article.article.title}}</h3>
 
-            <p>{{s_article.article.body}}</p>
+            <p>{{s_article.synopsis}}</p>
         </div>
     </div>
   {% endfor %}
-
-  <div class="item">
-	<img src="{% static "img/slider_1.png"  %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-  </div>
-  
-<div class="item">
-	<img src="{% static "img/slider_2.png" %}">
-        <div class="item-caption">
-            <h3>Dhanmondi Vs. Banani: A Food Cart Face Off</h3>
- 
-            <p>by Anogh Zaman</p>
- 
-            
-        </div>
-  </div>
-
-<div class="item">
-	<img src="{% static "img/slider_3.png" %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
- 
-            <p><a href="#">Read More</a></p>
-        </div>
-  </div>
-
-<div class="item">
-	<img src="{% static "img/slider_4.png" %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
- 
-            <p><a href="#">Read More</a></p>
-        </div>
-  </div>
-
-<div class="item">
-	<img src="{% static "img/slider_1.png" %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
- 
-            <p><a href="#">Read More</a></p>
-        </div>
-  </div>
-
-<div class="item">
-	<img src="{% static "img/slider_1.png" %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
- 
-            <p><a href="#">Read More</a></p>
-        </div>
-  </div>
-
-<div class="item">
-	<img src="{% static "img/slider_1.png" %}">
-        <div class="item-caption">
-            <h3>I love this title!</h3>
- 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
- 
-            <p><a href="#">Read More</a></p>
-        </div>
-  </div>
 </div>
 
 
@@ -210,14 +134,6 @@
             <li><a href="{% url 'news.views.story' a.slug %}">{{a.title}}</a></li>
             {%endfor%}
 
-			<li><a href="#">Agents of S.H.I.E.L.D. “Heavy Is the Head”(An Episode Review)</a></li>
-			<li><a href="#">DES: Dhaka Electronica Scene (An Interview)</a></li>
-			<li><a href="#">How To Start Watching Doctor</a><li>
-			<li><a href="#"> Who What To Wear This Winter (A Guidebook;
-			Trust Me, I Own A Sweater)</a></li>
-			<li><a href="#">Why Stores in Dhaka Do Not Invest in Original Games (If They Can Help It) </a></li> 
-			<li><a href="#">To All Dhaka City Food Carts: Make It </a></li>
-			<li><a href="#">Snappy, I Have To Beat Rush Hour</a></li>
 		</ul>
   </div> <!--col md 4 ends-->
   
@@ -230,50 +146,29 @@
 			<div class="row post">
 				<h2><a href="#">{{p_article.article.title}}</a></h2>
 				<div class="col-md-5">
-                    {% thumbnail p_article.article.cover "267x149" crop="center" as im %}
-                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                    {% endthumbnail %}
+
+                    {% if p_article.cover %}
+                        {% thumbnail p_article.cover "267x149" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        {% thumbnail p_article.article.cover "267x149" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    {% endif %}
+
+
+
 
 
                 </div>
 				<div class="col-md-7">
-					<p>{{p_article.article.body}}</p>
+					<p>{{p_article.synopsis}}</p>
 
 				</div> <!--col-md-7 ends-->
 			</div> <!--post ends-->
-
-
-
 
             {% endfor %}
-
-			<div class="row post">
-				<h2><a href="#">Agents of S.H.I.E.L.D. "Heavy Is the Head" (An Episode Review)</a></h2>
-				<div class="col-md-5"><img src="{% static "img/pop_post_1.png" %}"></div>
-				<div class="col-md-7">
-					<p>In its ﬁrst season, Marvel's Agents of S.H.I.E.L.D. relied heavily on a procedural format with overarching larger thematic storylines, like the ones concerning the Clairvoyant and Coulson's mysterious return from the dead.</p>
-
-				</div> <!--col-md-7 ends-->
-			</div> <!--post ends-->
-
-			<div class="row post">
-				<h2><a href="#">The Fault in Our Stars (A Preview)</a></h2>
-				<div class="col-md-5"><img src="{% static "img/pop_post_2.png" %}"></div>
-				<div class="col-md-7">
-					<p>Who loves a great, adorkable young adult cliché for a Thursday night in? Why, you, dear reader! And, you certainly got more than you bargained for.</p>
-
-				</div> <!--col-md-7 ends-->
-			</div> <!--post ends-->
-
-
-<div class="row post">
-				<h2><a href="#">DES: Dhaka Electronica Scene (An Interview)</a></h2>
-				<div class="col-md-5"><img src="{% static "img/pop_post_3.png" %}"></div>
-				<div class="col-md-7">
-					<p>We met up with Fahad Zaman (sometimes stylized as FHDZMN) one of the core artists responsible for the latest xenocultural trend to grip Dhaka, electronic music.</p>
-
-				</div> <!--col-md-7 ends-->
-			</div> <!--post ends-->
 
 	
 		</div> <!--popular ends-->

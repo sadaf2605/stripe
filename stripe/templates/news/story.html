@@ -101,15 +101,9 @@
 
 		<ul class="recent">
 			<h1>RECENT</h1>
-			<li><a href="#">Agents of S.H.I.E.L.D. “Heavy Is the Head”(An Episode Review)</a></li>
-			<li><a href="#">DES: Dhaka Electronica Scene (An Interview)</a></li>
-			<li><a href="#">How To Start Watching Doctor</a><li>
-			<li><a href="#"> Who What To Wear This Winter (A Guidebook;
-			Trust Me, I Own A Sweater)</a></li>
-			<li><a href="#">Why Stores in Dhaka Do Not Invest in Original Games (If They Can Help It) </a></li> 
-			<li><a href="#">To All Dhaka City Food Carts: Make It </a></li>
-			<li><a href="#">Snappy, I Have To Beat Rush Hour</a></li>
-		</ul>
+            {% for a in articles %}
+                <li><a href="{% url 'news.views.story' a.slug %}">{{a.title}}</a></li>
+            {%endfor%}		</ul>
   </div> <!--col md 4 ends-->
   
 
@@ -122,9 +116,9 @@
 				<h2><a href="#">{{article.title}}</a></h2>
 <h3>by {{article.author.username}}</h3>
 
-				<div class="col-md-12"><img src="{{article.cover.url}}"></div>
+				<div class="col-md-12"><img width="626px" height="350px" src="{{article.cover.url}}"></div>
 				<div class="col-md-12">
-                    {{article.body}}
+                    {{article.body|safe}}
 
 
 				</div> <!--col-md-12 ends-->
@@ -137,16 +131,16 @@
 		<span class="hashtag"> #AgentsOfSHIELD </span> 
 		<span class="hashtag">#Marvel</span> 
 		
-
-
-	</div>	
-	
-	<div class="col-md-2 pull-right">
+	<div class="pull-right">
 
 		<img src="{% static "img/fb_logo.png" %}">
 		<img src="{% static "img/tw_logo.png" %}">
 		<img src="{% static "img/gp_logo.png" %}">
 	</div>
+
+
+	</div>	
+	
 
 
 <div class="col-md-12 poll">

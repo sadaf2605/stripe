@@ -1,4 +1,4 @@
-.chart-horiz .chart { width: 90% }
+.chart-horiz .chart { /*width: 90%*/ }
  
 .chart-horiz .chart li {
   display: block;

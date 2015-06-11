@@ -7,6 +7,13 @@ from django.contrib.admin.templatetags import admin_modify
 def submit_line_row(context):
     context = context or {}
     ctx= admin_modify.submit_row(context)
-    if "show_save_as_draft" in context.keys():
-        ctx["show_save_as_draft"] = context["show_save_as_draft"]
+
+    try:
+        print context
+        print request.user.group
+        if "show_save_as_draft" in context.keys():
+            ctx["show_save_as_draft"] = context["show_save_as_draft"]
+    except:
+        print ""
+    ctx["show_save_as_draft"]=True
     return  ctx
