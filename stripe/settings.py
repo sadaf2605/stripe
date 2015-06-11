@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'news',
     'sorl.thumbnail',
     'tinymce',
+    'crispy_forms'
 
 )
 
@@ -54,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth','django.core.context_processors.request','django.core.context_processors.request')
 
 ROOT_URLCONF = 'stripe.urls'
@@ -71,6 +72,13 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
+
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

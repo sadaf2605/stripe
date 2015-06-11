@@ -59,6 +59,9 @@
                     {% for user in user_not_approved %}
                          <tr class="model-user">
                              <th scope="row"><a href="">{{user.email}}</a></th>
+                             {% if show_approve_editor %}
+                             <td><a href="/admin/editor/approve/{{user.username}}" class="addlink">Add as editor</a></td>
+                             {% endif %}
                              <td><a href="/admin/author/approve/{{user.username}}" class="addlink">Add as author</a></td>
                              <td><a href="/admin/author/reject/{{user.username}}" class="changelink">Reject</a></td>
                          </tr>

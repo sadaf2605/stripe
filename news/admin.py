@@ -15,12 +15,15 @@ class StripeAdminSite(admin.AdminSite):
     def index(self, request, extra_context=None):
         extra_context = extra_context or {}
 
-        if request.user.is_superuser or "editor" in request.user.groups.values_list():
+        if request.user.is_superuser or "editor" in request.user.groups.values_list() or "chief_editor" in request.user.groups.values_list():
             user_not_approved=User.objects.filter(Q(is_staff=False))
             extra_context['user_not_approved'] = user_not_approved
 
             article_to_approve=Article.objects.filter(public=False,draft=False)
             extra_context['article_to_approve'] = article_to_approve
+
+            if "chief_editor" in request.user.groups.values_list():
+                extra_context['show_approve_editor']=True
 
 
             print user_not_approved
@@ -42,9 +45,23 @@ class StripeAdminSite(admin.AdminSite):
 
         return super(StripeAdminSite, self).index(request,extra_context)
 
+    def approve_editor(self,request,username,):
+        if request.user.is_superuser or "chief_editor" in request.user.groups.values_list():
+
+            try:
+                u=User.objects.get(username=username)
+            except User.DoesNotExist:
+                pass
+                #raise Http404()
+
+            u.is_staff=True;
+            user=u.save() #
+            g = Group.objects.get(name='editor')
+            g.user_set.add(u)
+
 
     def approve_author(self,request,username,):
-        if request.user.is_superuser or "editor" in request.user.groups.values_list():
+        if request.user.is_superuser or "editor" in request.user.groups.values_list() or "chief_editor" in request.user.groups.values_list():
 
             try:
                 u=User.objects.get(username=username)
@@ -60,7 +77,7 @@ class StripeAdminSite(admin.AdminSite):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def reject_author(self,request,username,):
-        if request.user.is_superuser or "editor" in request.user.groups.values_list():
+        if request.user.is_superuser or "editor" in request.user.groups.values_list() or "chief_editor" in request.user.groups.values_list():
 
             try:
                 u=User.objects.get(username=username)
@@ -77,7 +94,7 @@ class StripeAdminSite(admin.AdminSite):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def approve_article(self,request,id):
-        if request.user.is_superuser or "editor" in request.user.groups.values_list():
+        if request.user.is_superuser or "editor" in request.user.groups.values_list() or "chief_editor" in request.user.groups.values_list():
             try:
                 article=Article.objects.get(id=id)
                 article.public=True
@@ -91,7 +108,7 @@ class StripeAdminSite(admin.AdminSite):
     def reject_article(self,request,id):
         try:
             article=Article.objects.get(id=id)
-            if request.user.is_superuser or "editor" in request.user.groups.values_list() or article.author==request.user:
+            if request.user.is_superuser or "editor" in request.user.groups.values_list() or "chief_editor" in request.user.groups.values_list() or article.author==request.user:
                 article.delete()
         except Article.DoesNotExist:
             pass
@@ -121,6 +138,7 @@ class StripeAdminSite(admin.AdminSite):
         from django.conf.urls import url
         my_urls = [
             url(r'^author/approve/(?P<username>\w+)/$', self.approve_author),
+            url(r'^editor/approve/(?P<username>\w+)/$', self.approve_author),
             url(r'^author/reject/(?P<username>\w+)/$', self.reject_author),
             url(r'^Article/approve/(?P<id>\d+)/$', self.approve_article),
             url(r'^Article/reject/(?P<id>\d+)/$', self.reject_article),
@@ -129,9 +147,11 @@ class StripeAdminSite(admin.AdminSite):
 
         return my_urls + urls
 
-
+from django.utils.translation import ugettext_lazy
 
 class ArticleAdmin(admin.ModelAdmin):
+    title = ugettext_lazy('My site admin')
+
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
@@ -211,21 +231,24 @@ def editor_group_permissions(sender, **kwargs):
     editor=Group.objects.get_or_create(name='editor')[0]
 
 
-    for m in ["Article", "popular Article", "slider Article"]:
+    for m in ["Article", "Popular Article", "Slider Article"]:
         for p in ["add","change","delete"]:
             perm=Permission.objects.get(name="Can "+p+" "+m)
             editor.permissions.add(perm)
             print perm," on ",m, "granted for editor"
 
 
-    ct = ContentType.objects.get(app_label='auth', model='user')
-    staff_approve_perm=Permission.objects.get_or_create(codename='can_approve_staff',
-                                                        name="Can approve staff",
-                                                        content_type=ct)[0]
-    print staff_approve_perm," on ","staff", "granted for editor"
-    editor.permissions.add(staff_approve_perm)
+def chief_editor_group_permissons(sender, **kwargs):
+    chief_editor=Group.objects.get_or_create(name='chief_editor')[0]
 
+
+    for m in ["Article", "Popular Article", "Slider Article"]:
+        for p in ["add","change","delete"]:
+            perm=Permission.objects.get(name="Can "+p+" "+m)
+            chief_editor.permissions.add(perm)
+            print perm," on ",m, "granted for editor"
 
 from django.db.models import signals
 signals.post_syncdb.connect(editor_group_permissions)
 signals.post_syncdb.connect(author_group_permissions)
+signals.post_syncdb.connect(chief_editor_group_permissons)
